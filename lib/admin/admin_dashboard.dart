@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'activity_review.dart';
+import 'member_management.dart';
+import 'reward_management.dart';
+
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
 
@@ -36,27 +40,49 @@ class AdminDashboard extends StatelessWidget {
             ),
 
             ListTile(
+              key: const Key('admin-dashboard-menu'),
               leading: const Icon(Icons.dashboard),
               title: const Text('Dashboard'),
-              onTap: () {},
+              onTap: () => Navigator.pop(context),
             ),
 
             ListTile(
+              key: const Key('admin-activity-menu'),
               leading: const Icon(Icons.assignment),
               title: const Text('ตรวจสอบกิจกรรม'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ActivityReview()),
+                );
+              },
             ),
 
             ListTile(
+              key: const Key('admin-rewards-menu'),
               leading: const Icon(Icons.card_giftcard),
               title: const Text('จัดการรางวัล'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RewardManagement()),
+                );
+              },
             ),
 
             ListTile(
+              key: const Key('admin-members-menu'),
               leading: const Icon(Icons.people),
               title: const Text('จัดการสมาชิก'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MemberManagement()),
+                );
+              },
             ),
           ],
         ),

@@ -8,6 +8,7 @@
 import 'package:ecoloop/screens/history_tab.dart';
 import 'package:ecoloop/screens/log_activity_tab.dart';
 import 'package:ecoloop/screens/home_shell.dart';
+import 'package:ecoloop/admin/admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -93,5 +94,31 @@ void main() {
     await tester.tap(find.text('เข้าสู่ระบบ Admin'));
     await tester.pumpAndSettle();
     expect(find.text('EcoLoop Admin'), findsOneWidget);
+  });
+
+  testWidgets('admin menu opens all management pages', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: AdminDashboard()));
+
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('admin-activity-menu')));
+    await tester.pumpAndSettle();
+    expect(find.text('ตรวจสอบกิจกรรม'), findsOneWidget);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('admin-rewards-menu')));
+    await tester.pumpAndSettle();
+    expect(find.text('จัดการรางวัล'), findsOneWidget);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('admin-members-menu')));
+    await tester.pumpAndSettle();
+    expect(find.text('จัดการสมาชิก'), findsOneWidget);
   });
 }
