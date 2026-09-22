@@ -9,6 +9,8 @@ import 'package:ecoloop/screens/history_tab.dart';
 import 'package:ecoloop/screens/log_activity_tab.dart';
 import 'package:ecoloop/screens/home_shell.dart';
 import 'package:ecoloop/admin/admin_dashboard.dart';
+import 'package:ecoloop/admin/activity_review.dart';
+import 'package:ecoloop/admin/reward_management.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -120,5 +122,39 @@ void main() {
     await tester.tap(find.byKey(const Key('admin-members-menu')));
     await tester.pumpAndSettle();
     expect(find.text('จัดการสมาชิก'), findsOneWidget);
+  });
+
+  testWidgets('approving or rejecting an activity removes it', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(home: ActivityReview(key: UniqueKey())),
+    );
+
+    expect(find.text('กิจกรรมรอตรวจสอบ'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('approve-activity')));
+    await tester.pumpAndSettle();
+    expect(find.text('ไม่มีรายการกิจกรรมรอตรวจสอบ'), findsOneWidget);
+    expect(find.text('ผู้ใช้: Pat'), findsNothing);
+
+    await tester.pumpWidget(const MaterialApp(home: ActivityReview()));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('reject-activity')));
+    await tester.pumpAndSettle();
+    expect(find.text('ไม่มีรายการกิจกรรมรอตรวจสอบ'), findsOneWidget);
+  });
+
+  testWidgets('admin can add a reward', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: RewardManagement()));
+    await tester.tap(find.byKey(const Key('add-admin-reward')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField).at(0), 'กล่องข้าว EcoLoop');
+    await tester.enterText(find.byType(TextField).at(1), 'กล่องรักษ์โลก');
+    await tester.enterText(find.byType(TextField).at(2), '750');
+    await tester.enterText(find.byType(TextField).at(3), '15');
+    await tester.tap(find.byKey(const Key('save-reward')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('กล่องข้าว EcoLoop'), findsOneWidget);
+    expect(find.textContaining('750 Points'), findsOneWidget);
   });
 }

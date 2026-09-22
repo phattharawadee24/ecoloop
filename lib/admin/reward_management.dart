@@ -49,6 +49,7 @@ class _RewardManagementState extends State<RewardManagement> {
       appBar: AppBar(title: const Text('จัดการรางวัล')),
 
       floatingActionButton: FloatingActionButton(
+        key: const Key('add-admin-reward'),
         onPressed: () => openForm(),
         child: const Icon(Icons.add),
       ),
@@ -79,6 +80,7 @@ class _RewardManagementState extends State<RewardManagement> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
+              key: ValueKey('edit-admin-reward-$index'),
               icon: const Icon(Icons.edit),
               onPressed: () => openForm(index: index),
             ),

@@ -156,6 +156,7 @@ class _RewardFormState extends State<RewardForm> {
               width: double.infinity,
               height: 55,
               child: ElevatedButton.icon(
+                key: const Key('save-reward'),
                 onPressed: saveReward,
                 icon: const Icon(Icons.save),
                 label: Text(
