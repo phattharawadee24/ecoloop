@@ -11,20 +11,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ecoloop/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('admin can log in and move between pages', (tester) async {
+    await tester.pumpWidget(const EcoLoopApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('เข้าสู่ระบบ Admin'), findsOneWidget);
+    await tester.enterText(
+      find.byKey(const Key('admin-email')),
+      'admin@ecoloop.test',
+    );
+    await tester.enterText(
+      find.byKey(const Key('admin-password')),
+      'secret123',
+    );
+    await tester.tap(find.byKey(const Key('admin-login')));
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('ภาพรวม'), findsWidgets);
+    await tester.tap(find.byKey(const Key('nav-1')));
+    await tester.pumpAndSettle();
+    expect(find.text('ตรวจสอบกิจกรรม'), findsWidgets);
+    expect(find.text('Pat'), findsWidgets);
   });
 }
