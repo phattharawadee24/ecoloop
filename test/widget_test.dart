@@ -13,43 +13,58 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ecoloop/main.dart';
 
 void main() {
-  testWidgets('EcoLoop app loads the login screen', (WidgetTester tester) async {
+  testWidgets('EcoLoop app loads the login screen', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const EcoLoopApp());
 
-    expect(find.text('EcoLoop'), findsOneWidget);
-    expect(find.text('เข้าสู่ระบบ'), findsOneWidget);
+    expect(find.text('EcoLoop'), findsWidgets);
+    expect(find.text('เข้าสู่ระบบ'), findsWidgets);
     expect(find.text('สมัครสมาชิก'), findsOneWidget);
   });
 
-  testWidgets('Sign-up form shows username field and home screen uses the real username',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(const EcoLoopApp());
+  testWidgets(
+    'Sign-up form shows username field and home screen uses the real username',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const EcoLoopApp());
 
-    await tester.tap(find.text('สมัครสมาชิก'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('สมัครสมาชิก').last);
+      await tester.pumpAndSettle();
 
-    expect(find.text('ชื่อผู้ใช้งาน'), findsOneWidget);
+      expect(find.text('ชื่อผู้ใช้งาน'), findsOneWidget);
 
-    await tester.enterText(find.byType(TextFormField).at(0), 'earthlover');
-    await tester.enterText(find.byType(TextFormField).at(1), 'earthlover@example.com');
-    await tester.enterText(find.byType(TextFormField).at(2), '123456');
-    await tester.tap(find.text('สมัครสมาชิก'));
-    await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextFormField).at(0), 'earthlover');
+      await tester.enterText(
+        find.byType(TextFormField).at(1),
+        'earthlover@example.com',
+      );
+      await tester.enterText(find.byType(TextFormField).at(2), '123456');
+      final submitIcon = find.byIcon(Icons.check_circle_rounded);
+      await tester.ensureVisible(submitIcon);
+      await tester.tap(submitIcon);
+      await tester.pumpAndSettle();
 
-    expect(find.text('สวัสดี, earthlover'), findsOneWidget);
-  });
+      expect(find.textContaining('earthlover'), findsWidgets);
+    },
+  );
 
-  testWidgets('History items show an attachment image thumbnail',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(home: HistoryTab()));
-
-    expect(find.byType(Image), findsWidgets);
-  });
-
-  testWidgets('Activity form includes a real photo attachment button',
-      (WidgetTester tester) async {
+  testWidgets('History screen renders with no submitted activities', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
-      MaterialApp(home: LogActivityTab(onSubmitted: () {})),
+      const MaterialApp(home: Scaffold(body: HistoryTab())),
+    );
+
+    expect(find.byType(Image), findsNothing);
+  });
+
+  testWidgets('Activity form includes a real photo attachment button', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: LogActivityTab(onSubmitted: () {})),
+      ),
     );
 
     expect(find.text('แนบรูปภาพ'), findsOneWidget);

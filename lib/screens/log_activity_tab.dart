@@ -56,9 +56,15 @@ class _LogActivityTabState extends State<LogActivityTab> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.green.shade200),
                   ),
-                  child: const Icon(Icons.photo_library_rounded, color: Colors.green),
+                  child: const Icon(
+                    Icons.photo_library_rounded,
+                    color: Colors.green,
+                  ),
                 ),
-                title: const Text('เลือกจากคลังรูปภาพ', style: TextStyle(fontWeight: FontWeight.bold)),
+                title: const Text(
+                  'เลือกจากคลังรูปภาพ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 onTap: () => Navigator.of(context).pop(ImageSource.gallery),
               ),
               ListTile(
@@ -67,11 +73,19 @@ class _LogActivityTabState extends State<LogActivityTab> {
                   decoration: BoxDecoration(
                     color: const Color(0xFF059669).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFF059669).withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: const Color(0xFF059669).withValues(alpha: 0.3),
+                    ),
                   ),
-                  child: const Icon(Icons.camera_alt_rounded, color: Color(0xFF059669)),
+                  child: const Icon(
+                    Icons.camera_alt_rounded,
+                    color: Color(0xFF059669),
+                  ),
                 ),
-                title: const Text('ถ่ายรูปใหม่', style: TextStyle(fontWeight: FontWeight.bold)),
+                title: const Text(
+                  'ถ่ายรูปใหม่',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 onTap: () => Navigator.of(context).pop(ImageSource.camera),
               ),
             ],
@@ -103,9 +117,9 @@ class _LogActivityTabState extends State<LogActivityTab> {
 
   Future<void> _submit() async {
     if (_selectedType == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('กรุณาเลือกกิจกรรมก่อน')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('กรุณาเลือกกิจกรรมก่อน')));
       return;
     }
 
@@ -132,7 +146,9 @@ class _LogActivityTabState extends State<LogActivityTab> {
       if (!result.isSuccess) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('อัปโหลดรูปภาพไม่สำเร็จ: ${result.errorMessage ?? "โปรดลองใหม่"}'),
+            content: Text(
+              'อัปโหลดรูปภาพไม่สำเร็จ: ${result.errorMessage ?? "โปรดลองใหม่"}',
+            ),
             backgroundColor: Colors.red.shade700,
           ),
         );
@@ -149,7 +165,8 @@ class _LogActivityTabState extends State<LogActivityTab> {
       points: pointsEarned,
       subtitle:
           '+$pointsEarned คะแนน · $_quantity รายการ · ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-      imageUrl: uploadedUrl ??
+      imageUrl:
+          uploadedUrl ??
           'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80',
       imageBytes: localBytes,
     );
@@ -185,60 +202,74 @@ class _LogActivityTabState extends State<LogActivityTab> {
                 decoration: BoxDecoration(
                   color: primaryColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                  border: Border.all(
+                    color: primaryColor.withValues(alpha: 0.3),
+                    width: 1.5,
+                  ),
                 ),
-                child: Icon(Icons.touch_app_rounded, color: primaryColor, size: 20),
+                child: Icon(
+                  Icons.touch_app_rounded,
+                  color: primaryColor,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 10),
               Text(
                 '1. เลือกประเภทกิจกรรม',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F172A),
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF0F172A),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: types.map((type) {
-              final selected = _selectedType == type;
-              return ChoiceChip(
-                showCheckmark: true,
-                avatar: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: selected ? Colors.white : primaryColor.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
+          Material(
+            color: Colors.transparent,
+            child: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: types.map((type) {
+                final selected = _selectedType == type;
+                return ChoiceChip(
+                  showCheckmark: true,
+                  avatar: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: selected
+                          ? Colors.white
+                          : primaryColor.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.eco_rounded,
+                      size: 14,
+                      color: selected ? primaryColor : primaryColor,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.eco_rounded,
-                    size: 14,
-                    color: selected ? primaryColor : primaryColor,
+                  label: Text(
+                    type,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: selected ? Colors.white : const Color(0xFF0F172A),
+                    ),
                   ),
-                ),
-                label: Text(
-                  type,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: selected ? Colors.white : const Color(0xFF0F172A),
+                  selected: selected,
+                  selectedColor: primaryColor,
+                  backgroundColor: Colors.white,
+                  elevation: selected ? 2 : 0,
+                  side: BorderSide(
+                    color: selected
+                        ? primaryColor
+                        : primaryColor.withValues(alpha: 0.3),
+                    width: 1.5,
                   ),
-                ),
-                selected: selected,
-                selectedColor: primaryColor,
-                backgroundColor: Colors.white,
-                elevation: selected ? 2 : 0,
-                side: BorderSide(
-                  color: selected ? primaryColor : primaryColor.withValues(alpha: 0.3),
-                  width: 1.5,
-                ),
-                onSelected: _isUploading
-                    ? null
-                    : (_) => setState(() => _selectedType = type),
-              );
-            }).toList(),
+                  onSelected: _isUploading
+                      ? null
+                      : (_) => setState(() => _selectedType = type),
+                );
+              }).toList(),
+            ),
           ),
           const SizedBox(height: 24),
           Row(
@@ -248,17 +279,24 @@ class _LogActivityTabState extends State<LogActivityTab> {
                 decoration: BoxDecoration(
                   color: primaryColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                  border: Border.all(
+                    color: primaryColor.withValues(alpha: 0.3),
+                    width: 1.5,
+                  ),
                 ),
-                child: Icon(Icons.edit_note_rounded, color: primaryColor, size: 20),
+                child: Icon(
+                  Icons.edit_note_rounded,
+                  color: primaryColor,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 10),
               Text(
                 '2. รายละเอียดกิจกรรม',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F172A),
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF0F172A),
+                ),
               ),
             ],
           ),
@@ -271,14 +309,20 @@ class _LogActivityTabState extends State<LogActivityTab> {
                   const Expanded(
                     child: Text(
                       'จำนวนชิ้น / ครั้ง',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       color: primaryColor.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                      border: Border.all(
+                        color: primaryColor.withValues(alpha: 0.3),
+                        width: 1.5,
+                      ),
                     ),
                     child: IconButton(
                       onPressed: _quantity > 1 && !_isUploading
@@ -293,16 +337,19 @@ class _LogActivityTabState extends State<LogActivityTab> {
                       '$_quantity',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w900,
-                            color: primaryColor,
-                          ),
+                        fontWeight: FontWeight.w900,
+                        color: primaryColor,
+                      ),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       color: primaryColor.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                      border: Border.all(
+                        color: primaryColor.withValues(alpha: 0.3),
+                        width: 1.5,
+                      ),
                     ),
                     child: IconButton(
                       onPressed: _quantity < 20 && !_isUploading
@@ -340,17 +387,24 @@ class _LogActivityTabState extends State<LogActivityTab> {
                 decoration: BoxDecoration(
                   color: primaryColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                  border: Border.all(
+                    color: primaryColor.withValues(alpha: 0.3),
+                    width: 1.5,
+                  ),
                 ),
-                child: Icon(Icons.image_outlined, color: primaryColor, size: 20),
+                child: Icon(
+                  Icons.image_outlined,
+                  color: primaryColor,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 10),
               Text(
                 '3. หลักฐานรูปภาพ',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F172A),
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF0F172A),
+                ),
               ),
             ],
           ),
@@ -360,7 +414,10 @@ class _LogActivityTabState extends State<LogActivityTab> {
               onTap: _isUploading ? null : _pickImage,
               borderRadius: BorderRadius.circular(18),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
@@ -382,19 +439,32 @@ class _LogActivityTabState extends State<LogActivityTab> {
                       decoration: BoxDecoration(
                         color: primaryColor.withValues(alpha: 0.12),
                         shape: BoxShape.circle,
-                        border: Border.all(color: primaryColor.withValues(alpha: 0.3), width: 1.5),
+                        border: Border.all(
+                          color: primaryColor.withValues(alpha: 0.3),
+                          width: 1.5,
+                        ),
                       ),
-                      child: Icon(Icons.add_a_photo_rounded, color: primaryColor, size: 32),
+                      child: Icon(
+                        Icons.add_a_photo_rounded,
+                        color: primaryColor,
+                        size: 32,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'แนบรูปภาพกิจกรรม',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      'แนบรูปภาพ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'ถ่ายภาพหรือเลือกจากคลังรูปภาพ',
-                      style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
@@ -425,11 +495,17 @@ class _LogActivityTabState extends State<LogActivityTab> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.red.shade300, width: 1.5),
+                      border: Border.all(
+                        color: Colors.red.shade300,
+                        width: 1.5,
+                      ),
                     ),
                     child: IconButton(
                       onPressed: _isUploading ? null : _clearImage,
-                      icon: const Icon(Icons.delete_forever_rounded, color: Colors.red),
+                      icon: const Icon(
+                        Icons.delete_forever_rounded,
+                        color: Colors.red,
+                      ),
                       tooltip: 'ยกเลิกรูปภาพ',
                     ),
                   ),
