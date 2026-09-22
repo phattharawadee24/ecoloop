@@ -7,6 +7,7 @@
 
 import 'package:ecoloop/screens/history_tab.dart';
 import 'package:ecoloop/screens/log_activity_tab.dart';
+import 'package:ecoloop/screens/home_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -68,5 +69,29 @@ void main() {
     );
 
     expect(find.text('แนบรูปภาพ'), findsOneWidget);
+  });
+
+  testWidgets('main menu connects to rewards and admin login', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: HomeShell(key: UniqueKey(), username: 'Pat'),
+      ),
+    );
+
+    await tester.tap(find.byKey(const Key('open-main-menu')));
+    await tester.pumpAndSettle();
+    expect(find.text('แลกรางวัล'), findsOneWidget);
+    await tester.tap(find.text('แลกรางวัล'));
+    await tester.pumpAndSettle();
+    expect(find.text('Rewards'), findsOneWidget);
+  });
+
+  testWidgets('main menu opens admin login', (tester) async {
+    await tester.pumpWidget(MaterialApp(home: HomeShell(username: 'Pat')));
+    await tester.tap(find.byKey(const Key('open-main-menu')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('เข้าสู่ระบบ Admin'));
+    await tester.pumpAndSettle();
+    expect(find.text('EcoLoop Admin'), findsOneWidget);
   });
 }

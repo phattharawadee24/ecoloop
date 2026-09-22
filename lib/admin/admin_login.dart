@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'admin_dashboard.dart';
+
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
 
@@ -24,9 +26,10 @@ class _AdminLoginState extends State<AdminLogin> {
       return;
     }
 
-    // TODO: เชื่อม API Python
-    print('Admin Email: phattharawadeess283@gmail.com');
-    print('Admin Password: phattharawadeess24');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const AdminDashboard()),
+    );
   }
 
   @override
