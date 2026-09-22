@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RewardForm extends StatefulWidget {
   final Map<String, dynamic>? reward;
@@ -14,6 +15,8 @@ class _RewardFormState extends State<RewardForm> {
   final detailController = TextEditingController();
   final pointsController = TextEditingController();
   final quantityController = TextEditingController();
+  final imagePicker = ImagePicker();
+  XFile? selectedImage;
 
   bool get isEdit => widget.reward != null;
 
@@ -44,7 +47,9 @@ class _RewardFormState extends State<RewardForm> {
     if (name.isEmpty ||
         description.isEmpty ||
         points == null ||
-        quantity == null) {
+        points < 0 ||
+        quantity == null ||
+        quantity < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('กรุณากรอกข้อมูลให้ครบถ้วน')),
       );
@@ -58,6 +63,7 @@ class _RewardFormState extends State<RewardForm> {
       'description': description,
       'points': points,
       'quantity': quantity,
+      'imagePath': selectedImage?.path ?? widget.reward?['imagePath'],
     });
   }
 
@@ -140,12 +146,21 @@ class _RewardFormState extends State<RewardForm> {
               width: double.infinity,
               height: 55,
               child: OutlinedButton.icon(
-                onPressed: () {
-                  // TODO:
-                  // เพิ่มระบบเลือกไฟล์รูปภาพ
+                key: const Key('upload-reward-image'),
+                onPressed: () async {
+                  final image = await imagePicker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (image != null && mounted) {
+                    setState(() => selectedImage = image);
+                  }
                 },
                 icon: const Icon(Icons.upload),
-                label: const Text('Upload รูปภาพ'),
+                label: Text(
+                  selectedImage == null
+                      ? 'Upload รูปภาพ'
+                      : 'เลือกรูปแล้ว: ${selectedImage!.name}',
+                ),
               ),
             ),
 

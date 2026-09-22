@@ -144,7 +144,7 @@ void main() {
 
   testWidgets('admin can add a reward', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: RewardManagement()));
-    await tester.tap(find.byKey(const Key('add-admin-reward')));
+    await tester.tap(find.byKey(const Key('add-admin-reward-button')));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField).at(0), 'กล่องข้าว EcoLoop');

@@ -57,6 +57,13 @@ class _RewardManagementState extends State<RewardManagement> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          FilledButton.icon(
+            key: const Key('add-admin-reward-button'),
+            onPressed: () => openForm(),
+            icon: const Icon(Icons.add),
+            label: const Text('เพิ่มรางวัลใหม่'),
+          ),
+          const SizedBox(height: 20),
           ...rewards.asMap().entries.map(
             (entry) => rewardCard(entry.key, entry.value),
           ),
