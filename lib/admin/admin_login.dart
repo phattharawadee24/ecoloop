@@ -25,8 +25,8 @@ class _AdminLoginState extends State<AdminLogin> {
     }
 
     // TODO: เชื่อม API Python
-    print('Admin Email: $email');
-    print('Admin Password: $password');
+    print('Admin Email: phattharawadeess283@gmail.com');
+    print('Admin Password: phattharawadeess24');
   }
 
   @override

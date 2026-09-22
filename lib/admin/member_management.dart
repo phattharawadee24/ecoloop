@@ -34,7 +34,23 @@ class MemberManagement extends StatelessWidget {
               ),
 
               trailing: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => showDialog<void>(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text('รายละเอียดสมาชิก ${member['name']}'),
+                    content: Text(
+                      'คะแนนสะสม: ${member['points']} Points\n'
+                      'กิจกรรมทั้งหมด: ${member['activities']} ครั้ง\n'
+                      'สถานะ: สมาชิกที่ใช้งานอยู่',
+                    ),
+                    actions: [
+                      FilledButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('ปิด'),
+                      ),
+                    ],
+                  ),
+                ),
                 child: const Text('ดูรายละเอียด'),
               ),
             ),
